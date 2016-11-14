@@ -7,7 +7,14 @@ package EDITOR;
 
 import java.awt.GraphicsEnvironment;
 import java.util.Arrays;
-import javax.swing.JLabel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.Element;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.Utilities;
 
 /**
  *
@@ -35,35 +42,43 @@ public class PrincipalScreen extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        btnNewFile = new javax.swing.JButton();
+        btnOpenFile = new javax.swing.JButton();
+        btnCompleteLog = new javax.swing.JButton();
+        btnMyFiles = new javax.swing.JButton();
+        jPanel10 = new javax.swing.JPanel();
+        btnProfile = new javax.swing.JButton();
+        btnSettings = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnSaveAs = new javax.swing.JButton();
+        btnExportTo = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnLogFile = new javax.swing.JButton();
+        btnShare = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         btnCopy = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnCut = new javax.swing.JButton();
+        btnPaste = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         cmbFonts = new javax.swing.JComboBox<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        cmbSizeFont = new javax.swing.JComboBox<>();
+        btnBold = new javax.swing.JButton();
+        btnItalic = new javax.swing.JButton();
         btnUnderline = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
-        jButton8 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        btnAlignCenter = new javax.swing.JButton();
+        btnAlignLeft = new javax.swing.JButton();
+        btnAlignJustified = new javax.swing.JButton();
+        btnAlignRight = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton17 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        btnNumberList = new javax.swing.JButton();
+        btnNormalList = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtDocumento = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -71,65 +86,180 @@ public class PrincipalScreen extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Files"));
+
+        btnNewFile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/newFile.png")); // NOI18N
+        btnNewFile.setToolTipText("New File");
+        btnNewFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewFileActionPerformed(evt);
+            }
+        });
+
+        btnOpenFile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/openFile.png")); // NOI18N
+        btnOpenFile.setToolTipText("Open File");
+        btnOpenFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenFileActionPerformed(evt);
+            }
+        });
+
+        btnCompleteLog.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logFile.png")); // NOI18N
+        btnCompleteLog.setToolTipText("Open Complete Log");
+        btnCompleteLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCompleteLogActionPerformed(evt);
+            }
+        });
+
+        btnMyFiles.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/myFiles.png")); // NOI18N
+        btnMyFiles.setToolTipText("Open My Files");
+        btnMyFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMyFilesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(btnNewFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(btnOpenFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(btnMyFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(btnCompleteLog, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnNewFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnOpenFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnCompleteLog, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnMyFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Account"));
+
+        btnProfile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/user.png")); // NOI18N
+        btnProfile.setToolTipText("My Profile");
+        btnProfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProfileActionPerformed(evt);
+            }
+        });
+
+        btnSettings.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/configuration.png")); // NOI18N
+        btnSettings.setToolTipText("Settings");
+        btnSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSettingsActionPerformed(evt);
+            }
+        });
+
+        btnLogout.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logout.png")); // NOI18N
+        btnLogout.setToolTipText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(btnSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 987, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 149, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("MyWord", jPanel4);
 
-        jButton5.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/save.png")); // NOI18N
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/save.png")); // NOI18N
+        btnSave.setToolTipText("Save File");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnSaveActionPerformed(evt);
             }
         });
 
-        jButton6.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/saveAs.png")); // NOI18N
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnSaveAs.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/saveAs.png")); // NOI18N
+        btnSaveAs.setToolTipText("Save File As");
+        btnSaveAs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnSaveAsActionPerformed(evt);
             }
         });
 
-        jButton7.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/exportTo.png")); // NOI18N
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnExportTo.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/exportTo.png")); // NOI18N
+        btnExportTo.setToolTipText("Export To");
+        btnExportTo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnExportToActionPerformed(evt);
             }
         });
 
-        jButton9.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/deleteFile.png")); // NOI18N
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/deleteFile.png")); // NOI18N
+        btnDelete.setToolTipText("Delete File");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
 
-        jButton15.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logFile.png")); // NOI18N
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
+        btnLogFile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logFile.png")); // NOI18N
+        btnLogFile.setToolTipText("View Log File");
+        btnLogFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
+                btnLogFileActionPerformed(evt);
             }
         });
 
-        jButton16.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/shareFile.png")); // NOI18N
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
+        btnShare.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/shareFile.png")); // NOI18N
+        btnShare.setToolTipText("Share File");
+        btnShare.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
+                btnShareActionPerformed(evt);
             }
         });
 
@@ -139,17 +269,17 @@ public class PrincipalScreen extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(72, 72, 72)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(80, 80, 80)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnExportTo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63)
-                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnShare, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLogFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
         jPanel2Layout.setVerticalGroup(
@@ -157,13 +287,13 @@ public class PrincipalScreen extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addComponent(btnShare, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExportTo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("File", jPanel2);
@@ -173,20 +303,23 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
         btnCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EDITOR/copy.png"))); // NOI18N
         btnCopy.setText("Copy");
+        btnCopy.setToolTipText("Copy");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EDITOR/cut.png"))); // NOI18N
-        jButton1.setText("Cut");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EDITOR/cut.png"))); // NOI18N
+        btnCut.setText("Cut");
+        btnCut.setToolTipText("Cut");
+        btnCut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCutActionPerformed(evt);
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/paste.png")); // NOI18N
-        jButton2.setText("Paste");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnPaste.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/paste.png")); // NOI18N
+        btnPaste.setText("Paste");
+        btnPaste.setToolTipText("Paste");
+        btnPaste.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnPasteActionPerformed(evt);
             }
         });
 
@@ -194,8 +327,8 @@ public class PrincipalScreen extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+            .addComponent(btnCut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnPaste, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
             .addComponent(btnCopy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
@@ -203,25 +336,54 @@ public class PrincipalScreen extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(btnCopy, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCut, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPaste, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(71, 71, 71))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Font"));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "18", "20", "22", "24", "26", "28", "30", "32", "36", "40", "44" }));
+        cmbFonts.setToolTipText("Style Font");
+        cmbFonts.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbFontsItemStateChanged(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Ubuntu", 1, 13)); // NOI18N
-        jButton3.setText("B");
-        jButton3.setToolTipText("Bold");
+        cmbSizeFont.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "18", "20", "22", "24", "26", "28", "30", "32", "36", "40", "44" }));
+        cmbSizeFont.setToolTipText("Font Size");
+        cmbSizeFont.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbSizeFontItemStateChanged(evt);
+            }
+        });
 
-        jButton4.setFont(new java.awt.Font("Ubuntu", 2, 13)); // NOI18N
-        jButton4.setText("I");
-        jButton4.setToolTipText("Italic");
+        btnBold.setFont(new java.awt.Font("Ubuntu", 1, 13)); // NOI18N
+        btnBold.setText("B");
+        btnBold.setToolTipText("Bold");
+        btnBold.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBoldMouseClicked(evt);
+            }
+        });
+
+        btnItalic.setFont(new java.awt.Font("Ubuntu", 2, 13)); // NOI18N
+        btnItalic.setText("I");
+        btnItalic.setToolTipText("Italic");
+        btnItalic.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnItalicMouseClicked(evt);
+            }
+        });
 
         btnUnderline.setText("<html><u>U</u></html>");
+        btnUnderline.setToolTipText("Underline");
+        btnUnderline.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUnderlineMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -231,15 +393,15 @@ public class PrincipalScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBold, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnItalic, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnUnderline, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(cmbFonts, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbSizeFont, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 19, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -248,63 +410,89 @@ public class PrincipalScreen extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbFonts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbSizeFont, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBold, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnItalic, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUnderline, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Paragraph"));
 
-        jButton8.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignCenter.png")); // NOI18N
-
-        jButton10.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignLeft.png")); // NOI18N
-
-        jButton11.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignJustified.png")); // NOI18N
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+        btnAlignCenter.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignCenter.png")); // NOI18N
+        btnAlignCenter.setToolTipText("Align Center");
+        btnAlignCenter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlignCenterMouseClicked(evt);
             }
         });
 
-        jButton12.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignRight.png")); // NOI18N
+        btnAlignLeft.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignLeft.png")); // NOI18N
+        btnAlignLeft.setToolTipText("Align Left");
+        btnAlignLeft.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlignLeftMouseClicked(evt);
+            }
+        });
+
+        btnAlignJustified.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignJustified.png")); // NOI18N
+        btnAlignJustified.setToolTipText("Justified");
+        btnAlignJustified.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlignJustifiedMouseClicked(evt);
+            }
+        });
+        btnAlignJustified.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlignJustifiedActionPerformed(evt);
+            }
+        });
+
+        btnAlignRight.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignRight.png")); // NOI18N
+        btnAlignRight.setToolTipText("Align Right");
+        btnAlignRight.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlignRightMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAlignLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAlignCenter, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAlignRight, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnAlignJustified, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAlignCenter, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAlignJustified, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel7Layout.createSequentialGroup()
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnAlignRight, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnAlignLeft, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Lists"));
 
-        jButton13.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/numbersList.png")); // NOI18N
+        btnNumberList.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/numbersList.png")); // NOI18N
+        btnNumberList.setToolTipText("Numeric List");
 
-        jButton14.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/normalList.png")); // NOI18N
+        btnNormalList.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/normalList.png")); // NOI18N
+        btnNormalList.setToolTipText("Normal List");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -312,9 +500,9 @@ public class PrincipalScreen extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(jButton14)
+                .addComponent(btnNormalList)
                 .addGap(26, 26, 26)
-                .addComponent(jButton13)
+                .addComponent(btnNumberList)
                 .addGap(33, 33, 33))
         );
         jPanel8Layout.setVerticalGroup(
@@ -322,8 +510,8 @@ public class PrincipalScreen extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton14)
-                    .addComponent(jButton13))
+                    .addComponent(btnNormalList)
+                    .addComponent(btnNumberList))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -357,14 +545,6 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Text", jPanel3);
 
-        jButton17.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/save.png")); // NOI18N
-        jButton17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton17ActionPerformed(evt);
-            }
-        });
-        jTabbedPane1.addTab("tab4", jButton17);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -379,7 +559,10 @@ public class PrincipalScreen extends javax.swing.JFrame {
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, Short.MAX_VALUE)
         );
 
-        jScrollPane1.setViewportView(jTextPane1);
+        txtDocumento.setContentType("text/html"); // NOI18N
+        txtDocumento.setMargin(new java.awt.Insets(35, 50, 35, 50));
+        txtDocumento.setMaximumSize(new java.awt.Dimension(50, 70));
+        jScrollPane2.setViewportView(txtDocumento);
 
         jMenu1.setText("File");
 
@@ -401,9 +584,6 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -413,61 +593,188 @@ public class PrincipalScreen extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+    private void btnAlignJustifiedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlignJustifiedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton17ActionPerformed
+    }//GEN-LAST:event_btnAlignJustifiedActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void btnPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+    }//GEN-LAST:event_btnPasteActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCutActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnCutActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnShareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShareActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnShareActionPerformed
 
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+    private void btnLogFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogFileActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton16ActionPerformed
+    }//GEN-LAST:event_btnLogFileActionPerformed
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton15ActionPerformed
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void btnExportToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportToActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_btnExportToActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnSaveAsActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnNewFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewFileActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnNewFileActionPerformed
 
+    private void btnOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOpenFileActionPerformed
+
+    private void btnCompleteLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteLogActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCompleteLogActionPerformed
+
+    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnProfileActionPerformed
+
+    private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSettingsActionPerformed
+
+    private void btnMyFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyFilesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMyFilesActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnBoldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBoldMouseClicked
+        // TODO add your handling code here:
+        setTextAttribute("bold");
+    }//GEN-LAST:event_btnBoldMouseClicked
+
+    private void btnItalicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnItalicMouseClicked
+        // TODO add your handling code here:
+        setTextAttribute("italic");
+    }//GEN-LAST:event_btnItalicMouseClicked
+
+    private void btnUnderlineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUnderlineMouseClicked
+        // TODO add your handling code here:
+        setTextAttribute("underline");
+    }//GEN-LAST:event_btnUnderlineMouseClicked
+
+    private void cmbFontsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbFontsItemStateChanged
+        // TODO add your handling code here:
+        setTextAttribute("fontFamily", this.cmbFonts.getSelectedItem());
+    }//GEN-LAST:event_cmbFontsItemStateChanged
+
+    private void cmbSizeFontItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSizeFontItemStateChanged
+        // TODO add your handling code here:
+        setTextAttribute("fontSize", this.cmbSizeFont.getSelectedItem());
+    }//GEN-LAST:event_cmbSizeFontItemStateChanged
+
+    private void btnAlignCenterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlignCenterMouseClicked
+        // TODO add your handling code here:
+        setTextAttribute("align", "center");
+    }//GEN-LAST:event_btnAlignCenterMouseClicked
+
+    private void btnAlignLeftMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlignLeftMouseClicked
+        // TODO add your handling code here:
+        setTextAttribute("align", "left");
+    }//GEN-LAST:event_btnAlignLeftMouseClicked
+
+    private void btnAlignRightMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlignRightMouseClicked
+        // TODO add your handling code here:
+        setTextAttribute("align", "right");
+    }//GEN-LAST:event_btnAlignRightMouseClicked
+
+    private void btnAlignJustifiedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlignJustifiedMouseClicked
+        // TODO add your handling code here:
+        setTextAttribute("align", "justified");
+    }//GEN-LAST:event_btnAlignJustifiedMouseClicked
+    /**
+     * 
+     * @param attributeType 
+     * @param parameter 
+     */
+    public void setTextAttribute(String attributeType, Object parameter) {
+
+        int start = txtDocumento.getSelectionStart();
+        int end = txtDocumento.getSelectionEnd();
+        System.out.println("Start" + start);
+        if (start == end) {
+            try {
+                start = Utilities.getRowStart(txtDocumento, txtDocumento.getCaretPosition());
+                end = Utilities.getRowEnd(txtDocumento, txtDocumento.getCaretPosition());
+            } catch (Exception e) {
+            }
+            if (end == 0) {
+                return;
+            }
+        }
+        StyledDocument doc = (StyledDocument) txtDocumento.getDocument();
+        Element element = doc.getCharacterElement(start);
+        AttributeSet as = element.getAttributes();
+        
+        MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
+        if (attributeType.equals("bold")) {
+            StyleConstants.setBold(asNew, !StyleConstants.isBold(as));
+        } else if (attributeType.equals("underline")) {
+            StyleConstants.setUnderline(asNew, !StyleConstants.isUnderline(as));
+        } else if (attributeType.equals("italic")) {
+            StyleConstants.setItalic(asNew, !StyleConstants.isItalic(as));
+        } else if (attributeType.equals("fontFamily")) {
+            StyleConstants.setFontFamily(asNew, (String)parameter);
+        } else if (attributeType.equals("fontSize")) {
+            StyleConstants.setFontSize(asNew, Integer.parseInt((String)parameter));
+        } else if (attributeType.equals("align")) {
+            String alignTo = (String)parameter;
+            if (alignTo.equals("center")) {
+                StyleConstants.setAlignment(asNew, StyleConstants.ALIGN_CENTER);
+            } else if (alignTo.equals("left")) {
+                StyleConstants.setAlignment(asNew, StyleConstants.ALIGN_LEFT);
+            } else if (alignTo.equals("right")) {
+                StyleConstants.setAlignment(asNew, StyleConstants.ALIGN_RIGHT);
+            } else if (alignTo.equals("justified")) {
+                StyleConstants.setAlignment(asNew, StyleConstants.ALIGN_JUSTIFIED);
+            }
+            doc.setParagraphAttributes(start, end - start, asNew, true);
+        }
+        doc.setCharacterAttributes(start, end - start, asNew, true);
+        System.out.println(this.txtDocumento.getText());
+    }
+    
+    /**
+     * 
+     * @param attributeType 
+     */
+    public void setTextAttribute(String attributeType) {
+        setTextAttribute(attributeType, null);
+    }
     /**
      * @param args the command line arguments
      */
@@ -511,32 +818,44 @@ public class PrincipalScreen extends javax.swing.JFrame {
         for (String fontName : fontNames) {
             this.cmbFonts.addItem(fontName);
         }
+        try {
+            DefaultComboBoxModel fontsModel = (DefaultComboBoxModel)this.cmbFonts.getModel();
+            fontsModel.setSelectedItem("DejaVu Sans");
+            
+            DefaultComboBoxModel fontSizeModel = (DefaultComboBoxModel)this.cmbSizeFont.getModel();
+            fontSizeModel.setSelectedItem("14");
+        } catch (Exception e){}
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlignCenter;
+    private javax.swing.JButton btnAlignJustified;
+    private javax.swing.JButton btnAlignLeft;
+    private javax.swing.JButton btnAlignRight;
+    private javax.swing.JButton btnBold;
+    private javax.swing.JButton btnCompleteLog;
     private javax.swing.JButton btnCopy;
+    private javax.swing.JButton btnCut;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnExportTo;
+    private javax.swing.JButton btnItalic;
+    private javax.swing.JButton btnLogFile;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnMyFiles;
+    private javax.swing.JButton btnNewFile;
+    private javax.swing.JButton btnNormalList;
+    private javax.swing.JButton btnNumberList;
+    private javax.swing.JButton btnOpenFile;
+    private javax.swing.JButton btnPaste;
+    private javax.swing.JButton btnProfile;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSaveAs;
+    private javax.swing.JButton btnSettings;
+    private javax.swing.JButton btnShare;
     private javax.swing.JButton btnUnderline;
     private javax.swing.JComboBox<String> cmbFonts;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cmbSizeFont;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -544,6 +863,7 @@ public class PrincipalScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -551,8 +871,9 @@ public class PrincipalScreen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane txtDocumento;
     // End of variables declaration//GEN-END:variables
 }

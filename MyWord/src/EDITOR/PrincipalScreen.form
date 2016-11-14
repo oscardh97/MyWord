@@ -38,11 +38,6 @@
             </Menu>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Edit"/>
-          </Properties>
-        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
@@ -73,8 +68,8 @@
           <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="985" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -82,9 +77,9 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="344" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="432" max="-2" attributes="0"/>
+              <EmptySpace pref="20" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -132,15 +127,175 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="987" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                          <Component id="jPanel10" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="149" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jPanel9" max="32767" attributes="0"/>
+                              <Component id="jPanel10" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
+              <SubComponents>
+                <Container class="javax.swing.JPanel" name="jPanel9">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                        <TitledBorder title="Files"/>
+                      </Border>
+                    </Property>
+                  </Properties>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="btnNewFile" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                              <Component id="btnOpenFile" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                              <Component id="btnMyFiles" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="btnCompleteLog" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace pref="33" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnNewFile" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnOpenFile" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnCompleteLog" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnMyFiles" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JButton" name="btnNewFile">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/newFile.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="New File"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewFileActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="btnOpenFile">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/openFile.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Open File"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenFileActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="btnCompleteLog">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logFile.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Open Complete Log"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCompleteLogActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="btnMyFiles">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/myFiles.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Open My Files"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMyFilesActionPerformed"/>
+                      </Events>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JPanel" name="jPanel10">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                        <TitledBorder title="Account"/>
+                      </Border>
+                    </Property>
+                  </Properties>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnProfile" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="btnSettings" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace pref="37" max="32767" attributes="0"/>
+                              <Component id="btnLogout" min="-2" pref="100" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnProfile" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnSettings" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnLogout" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JButton" name="btnProfile">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/user.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="My Profile"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProfileActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="btnSettings">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/configuration.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Settings"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSettingsActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="btnLogout">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logout.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Logout"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogoutActionPerformed"/>
+                      </Events>
+                    </Component>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel2">
               <Constraints>
@@ -156,17 +311,17 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton5" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                          <Component id="jButton6" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnSaveAs" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                          <Component id="jButton9" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnDelete" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
-                          <Component id="jButton7" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnExportTo" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                          <Component id="jButton16" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnShare" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace pref="60" max="32767" attributes="0"/>
-                          <Component id="jButton15" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="btnLogFile" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -176,77 +331,83 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButton16" min="-2" pref="100" max="-2" attributes="0"/>
-                              <Component id="jButton15" min="-2" pref="100" max="-2" attributes="0"/>
-                              <Component id="jButton9" min="-2" pref="100" max="-2" attributes="0"/>
-                              <Component id="jButton7" min="-2" pref="100" max="-2" attributes="0"/>
-                              <Component id="jButton6" min="-2" pref="100" max="-2" attributes="0"/>
-                              <Component id="jButton5" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="btnShare" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="btnLogFile" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="btnDelete" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="btnExportTo" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="btnSaveAs" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="25" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="jButton5">
+                <Component class="javax.swing.JButton" name="btnSave">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/save.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Save File"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton6">
+                <Component class="javax.swing.JButton" name="btnSaveAs">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/saveAs.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Save File As"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveAsActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton7">
+                <Component class="javax.swing.JButton" name="btnExportTo">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/exportTo.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Export To"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExportToActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton9">
+                <Component class="javax.swing.JButton" name="btnDelete">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/deleteFile.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Delete File"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton9ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton15">
+                <Component class="javax.swing.JButton" name="btnLogFile">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logFile.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="View Log File"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton15ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogFileActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton16">
+                <Component class="javax.swing.JButton" name="btnShare">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/shareFile.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Share File"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton16ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnShareActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -308,8 +469,8 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton1" max="32767" attributes="0"/>
-                          <Component id="jButton2" pref="113" max="32767" attributes="0"/>
+                          <Component id="btnCut" max="32767" attributes="0"/>
+                          <Component id="btnPaste" pref="113" max="32767" attributes="0"/>
                           <Component id="btnCopy" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
@@ -318,9 +479,9 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnCopy" min="-2" pref="31" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="btnCut" min="-2" pref="31" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton2" min="-2" pref="28" max="-2" attributes="0"/>
+                              <Component id="btnPaste" min="-2" pref="28" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -333,28 +494,31 @@
                           <Image iconType="3" name="/EDITOR/copy.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Copy"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Copy"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton1">
+                    <Component class="javax.swing.JButton" name="btnCut">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/EDITOR/cut.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Cut"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Cut"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCutActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton2">
+                    <Component class="javax.swing.JButton" name="btnPaste">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/paste.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Paste"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Paste"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPasteActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -375,16 +539,16 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jButton3" min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="btnBold" min="-2" pref="39" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jButton4" min="-2" pref="40" max="-2" attributes="0"/>
+                                      <Component id="btnItalic" min="-2" pref="40" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="btnUnderline" min="-2" pref="42" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="cmbFonts" min="-2" pref="155" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cmbSizeFont" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="0" pref="19" max="32767" attributes="0"/>
@@ -397,12 +561,12 @@
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="cmbFonts" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cmbSizeFont" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jButton3" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                                  <Component id="jButton4" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                  <Component id="btnBold" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                  <Component id="btnItalic" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                                   <Component id="btnUnderline" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -416,12 +580,16 @@
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="0"/>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Style Font"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cmbFontsItemStateChanged"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="jComboBox1">
+                    <Component class="javax.swing.JComboBox" name="cmbSizeFont">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="22">
@@ -449,12 +617,16 @@
                             <StringItem index="21" value="44"/>
                           </StringArray>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Font Size"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cmbSizeFontItemStateChanged"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton3">
+                    <Component class="javax.swing.JButton" name="btnBold">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Ubuntu" size="13" style="1"/>
@@ -462,8 +634,11 @@
                         <Property name="text" type="java.lang.String" value="B"/>
                         <Property name="toolTipText" type="java.lang.String" value="Bold"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnBoldMouseClicked"/>
+                      </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton4">
+                    <Component class="javax.swing.JButton" name="btnItalic">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Ubuntu" size="13" style="2"/>
@@ -471,11 +646,18 @@
                         <Property name="text" type="java.lang.String" value="I"/>
                         <Property name="toolTipText" type="java.lang.String" value="Italic"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnItalicMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnUnderline">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;u&gt;U&lt;/u&gt;&lt;/html&gt;"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Underline"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnUnderlineMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -492,13 +674,13 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jButton10" min="-2" pref="56" max="-2" attributes="0"/>
+                              <Component id="btnAlignLeft" min="-2" pref="56" max="-2" attributes="0"/>
                               <EmptySpace pref="27" max="32767" attributes="0"/>
-                              <Component id="jButton8" min="-2" pref="56" max="-2" attributes="0"/>
+                              <Component id="btnAlignCenter" min="-2" pref="56" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="jButton12" min="-2" pref="56" max="-2" attributes="0"/>
+                              <Component id="btnAlignRight" min="-2" pref="56" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                              <Component id="jButton11" min="-2" pref="52" max="-2" attributes="0"/>
+                              <Component id="btnAlignJustified" min="-2" pref="52" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -507,14 +689,14 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jButton8" min="-2" pref="53" max="-2" attributes="0"/>
-                                  <Component id="jButton11" alignment="1" min="-2" pref="53" max="-2" attributes="0"/>
+                                  <Component id="btnAlignCenter" min="-2" pref="53" max="-2" attributes="0"/>
+                                  <Component id="btnAlignJustified" alignment="1" min="-2" pref="53" max="-2" attributes="0"/>
                                   <Group type="103" alignment="1" groupAlignment="1" attributes="0">
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace pref="1" max="-2" attributes="0"/>
-                                          <Component id="jButton12" min="-2" pref="53" max="-2" attributes="0"/>
+                                          <Component id="btnAlignRight" min="-2" pref="53" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jButton10" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
+                                      <Component id="btnAlignLeft" alignment="0" min="-2" pref="54" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -523,36 +705,50 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JButton" name="jButton8">
+                    <Component class="javax.swing.JButton" name="btnAlignCenter">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignCenter.png"/>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Align Center"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAlignCenterMouseClicked"/>
+                      </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton10">
+                    <Component class="javax.swing.JButton" name="btnAlignLeft">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignLeft.png"/>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Align Left"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAlignLeftMouseClicked"/>
+                      </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton11">
+                    <Component class="javax.swing.JButton" name="btnAlignJustified">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignJustified.png"/>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Justified"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton11ActionPerformed"/>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAlignJustifiedMouseClicked"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAlignJustifiedActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton12">
+                    <Component class="javax.swing.JButton" name="btnAlignRight">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignRight.png"/>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Align Right"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAlignRightMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -570,9 +766,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace pref="32" max="32767" attributes="0"/>
-                              <Component id="jButton14" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnNormalList" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="jButton13" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnNumberList" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -582,8 +778,8 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButton14" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton13" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnNormalList" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnNumberList" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -591,53 +787,47 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JButton" name="jButton13">
+                    <Component class="javax.swing.JButton" name="btnNumberList">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/numbersList.png"/>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Numeric List"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton14">
+                    <Component class="javax.swing.JButton" name="btnNormalList">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/normalList.png"/>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Normal List"/>
                       </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jButton17">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/save.png"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton17ActionPerformed"/>
-              </Events>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="tab4">
-                    <Property name="tabTitle" type="java.lang.String" value="tab4"/>
-                  </JTabbedPaneConstraints>
-                </Constraint>
-              </Constraints>
-            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextPane" name="jTextPane1">
+        <Component class="javax.swing.JTextPane" name="txtDocumento">
+          <Properties>
+            <Property name="contentType" type="java.lang.String" value="text/html" noResource="true"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[35, 50, 35, 50]"/>
+            </Property>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[50, 70]"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
