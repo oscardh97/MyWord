@@ -12,3 +12,7 @@
 hs_err_pid*
 /MyWord/nbproject/private/
 /MyWord/build/
+/MyWord/dist/
+/SERVER_MyWord/nbproject/private/
+/SERVER_MyWord/build/
+/SERVER_MyWord/dist/

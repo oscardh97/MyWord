@@ -5,29 +5,48 @@
  */
 package EDITOR;
 
+import static EDITOR.myWord.read;
 import java.awt.GraphicsEnvironment;
-import java.util.Arrays;
+import java.io.StringReader;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
+import javax.swing.text.Document;
 import javax.swing.text.Element;
+import javax.swing.text.ElementIterator;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import javax.swing.text.Utilities;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
  * @author oscarito
  */
 public class PrincipalScreen extends javax.swing.JFrame {
+    FILE myFile;
+    int idUser;
 
+    public PrincipalScreen(int idUser) {
+        this.idUser = idUser;
+        initComponents();
+        setFonts();
+        myFile = new FILE(idUser, this.txtDocumento);
+    }
     /**
      * Creates new form PrincipalScreen
      */
+    
     public PrincipalScreen() {
         initComponents();
         setFonts();
+        myFile = new FILE(1, this.txtDocumento);
     }
 
     /**
@@ -39,6 +58,13 @@ public class PrincipalScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jdOpenFile = new javax.swing.JDialog();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblFiles = new javax.swing.JTable();
+        btnDeleteFile = new javax.swing.JButton();
+        btnExportTo1 = new javax.swing.JButton();
+        btnShare1 = new javax.swing.JButton();
+        btnLogFile1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
@@ -69,6 +95,7 @@ public class PrincipalScreen extends javax.swing.JFrame {
         btnBold = new javax.swing.JButton();
         btnItalic = new javax.swing.JButton();
         btnUnderline = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         btnAlignCenter = new javax.swing.JButton();
         btnAlignLeft = new javax.swing.JButton();
@@ -87,6 +114,106 @@ public class PrincipalScreen extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
 
+        jdOpenFile.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jdOpenFileComponentShown(evt);
+            }
+        });
+
+        tblFiles.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Name", "Creation User", "Creation Date", "Modification Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblFiles);
+
+        btnDeleteFile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/deleteFile.png")); // NOI18N
+        btnDeleteFile.setToolTipText("Delete File");
+        btnDeleteFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteFileMouseClicked(evt);
+            }
+        });
+        btnDeleteFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteFileActionPerformed(evt);
+            }
+        });
+
+        btnExportTo1.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/exportTo.png")); // NOI18N
+        btnExportTo1.setToolTipText("Export To");
+        btnExportTo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportTo1ActionPerformed(evt);
+            }
+        });
+
+        btnShare1.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/shareFile.png")); // NOI18N
+        btnShare1.setToolTipText("Share File");
+        btnShare1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShare1ActionPerformed(evt);
+            }
+        });
+
+        btnLogFile1.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logFile.png")); // NOI18N
+        btnLogFile1.setToolTipText("View Log File");
+        btnLogFile1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogFile1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jdOpenFileLayout = new javax.swing.GroupLayout(jdOpenFile.getContentPane());
+        jdOpenFile.getContentPane().setLayout(jdOpenFileLayout);
+        jdOpenFileLayout.setHorizontalGroup(
+            jdOpenFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jdOpenFileLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(jdOpenFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnShare1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExportTo1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeleteFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogFile1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 43, Short.MAX_VALUE))
+        );
+        jdOpenFileLayout.setVerticalGroup(
+            jdOpenFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jdOpenFileLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jdOpenFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jdOpenFileLayout.createSequentialGroup()
+                        .addComponent(btnDeleteFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnExportTo1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnShare1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addComponent(btnLogFile1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
@@ -96,6 +223,11 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
         btnNewFile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/newFile.png")); // NOI18N
         btnNewFile.setToolTipText("New File");
+        btnNewFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNewFileMouseClicked(evt);
+            }
+        });
         btnNewFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewFileActionPerformed(evt);
@@ -104,6 +236,11 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
         btnOpenFile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/openFile.png")); // NOI18N
         btnOpenFile.setToolTipText("Open File");
+        btnOpenFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnOpenFileMouseClicked(evt);
+            }
+        });
         btnOpenFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpenFileActionPerformed(evt);
@@ -385,6 +522,13 @@ public class PrincipalScreen extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("jButton1");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -397,7 +541,9 @@ public class PrincipalScreen extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnItalic, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnUnderline, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnUnderline, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(cmbFonts, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -411,11 +557,16 @@ public class PrincipalScreen extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbFonts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbSizeFont, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBold, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnItalic, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUnderline, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBold, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnItalic, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUnderline, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -556,13 +707,13 @@ public class PrincipalScreen extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
         );
 
         txtDocumento.setContentType("text/html"); // NOI18N
-        txtDocumento.setMargin(new java.awt.Insets(35, 50, 35, 50));
-        txtDocumento.setMaximumSize(new java.awt.Dimension(50, 70));
+        txtDocumento.setText("<html>\n  <head>\n  </head>\n  <body width=500>  \n <p>\n      \n    </p>\n  </body>\n</html>\n");
         jScrollPane2.setViewportView(txtDocumento);
+        txtDocumento.getAccessibleContext().setAccessibleName("");
 
         jMenu1.setText("File");
 
@@ -716,6 +867,122 @@ public class PrincipalScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         setTextAttribute("align", "justified");
     }//GEN-LAST:event_btnAlignJustifiedMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        myFile.updateJSON();
+//        test();
+//        byte[] text = Base64.getEncoder().encode(this.txtDocumento.getText().getBytes());
+//        System.out.println("TEST BASE64" + new String(Base64.getDecoder().decode(text)));
+//        read("test", this.txtDocumento.getText());
+//        System.out.println(this.txtDocumento.getText());
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void btnNewFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewFileMouseClicked
+        String name = JOptionPane.showInputDialog("Name: ", "New File");
+        JSONObject object = new JSONObject();
+        object.put("NAME", name);
+        Object[] response = read("createFile", object);
+        if ((boolean)response[0] == true) {
+            System.out.println(response.length);
+//            System.out.println(((JSONObject)response[1]).get("ID"));
+//            new PrincipalScreen(Integer.parseInt(((JSONObject)response[1]).get("ID").toString())).show();
+        }
+    }//GEN-LAST:event_btnNewFileMouseClicked
+
+    private void jdOpenFileComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jdOpenFileComponentShown
+        // TODO add your handling code here:
+        DefaultTableModel tbl = (DefaultTableModel)this.tblFiles.getModel();
+        JSONArray response = (JSONArray)read("readFiles", null)[1];
+        for (Object object : response) {
+            JSONObject file = (JSONObject)object;
+            tbl.addRow(new Object[] {
+                Integer.parseInt(file.get("ID").toString()),
+                file.get("NAME"),
+                file.get("CREATION_USER"),
+                file.get("CREATION_DATE"),
+                file.get("MODIFICATION_DATE")
+            });
+        }
+//        System.out.println("@FILES" + response.length);
+        
+    }//GEN-LAST:event_jdOpenFileComponentShown
+
+    private void btnOpenFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOpenFileMouseClicked
+        // TODO add your handling code here:
+        this.jdOpenFile.pack();
+        this.jdOpenFile.setLocationRelativeTo(this);
+        this.jdOpenFile.setVisible(true);
+    }//GEN-LAST:event_btnOpenFileMouseClicked
+
+    private void btnDeleteFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteFileActionPerformed
+
+    private void btnExportTo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportTo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExportTo1ActionPerformed
+
+    private void btnShare1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShare1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnShare1ActionPerformed
+
+    private void btnLogFile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogFile1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLogFile1ActionPerformed
+    public void deleteFiles(int[] indexFiles) {
+        DefaultTableModel model = (DefaultTableModel)this.tblFiles.getModel();
+        JSONArray ids = new JSONArray();
+        JSONObject object = new JSONObject();
+        for (int i = 0; i < indexFiles.length; i++) {
+            ids.add((int)model.getValueAt(indexFiles[i], 0));
+//            System.out.println("@ids[i]" + ids[i]);
+        }
+        object.put("IDS", ids);
+        read("deleteFiles", object);
+    }
+    private void btnDeleteFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteFileMouseClicked
+        // TODO add your handling code here:
+        deleteFiles(this.tblFiles.getSelectedRows());
+        
+    }//GEN-LAST:event_btnDeleteFileMouseClicked
+    public void test () {
+        HTMLEditorKit htmlKit = new HTMLEditorKit();
+        HTMLDocument htmlDoc = (HTMLDocument) htmlKit.createDefaultDocument();
+        setTextAttribute("id", "1");
+        try {
+            htmlKit.read(new StringReader(this.txtDocumento.getText()), htmlDoc, 0);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        // Parse
+        ElementIterator iterator = new ElementIterator(htmlDoc);
+        Element element;
+        while ((element = iterator.next()) != null) {
+            AttributeSet as = element.getAttributes();
+            Object name = as.getAttribute(StyleConstants.NameAttribute);
+            Object id = as.getAttribute("id");
+            if (name == HTML.Tag.CONTENT || name == HTML.Tag.P) {
+                System.out.println("Id " + id);
+                StringBuffer sb = new StringBuffer();
+                sb.append(name).append(": ").append(id);
+                int count = element.getElementCount();
+                for (int i = 0; i < count; i++) {
+                    Element child = element.getElement(i);
+                    int startOffset = child.getStartOffset();
+                    int endOffset = child.getEndOffset();
+                    int length = endOffset - startOffset;
+                    try {
+                        sb.append(htmlDoc.getText(startOffset, length));
+                        
+                    } catch (Exception e) {
+            System.out.println(e.toString());
+                    }
+                }
+                System.out.println(sb);
+            }
+        }
+    }
     /**
      * 
      * @param attributeType 
@@ -725,21 +992,28 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
         int start = txtDocumento.getSelectionStart();
         int end = txtDocumento.getSelectionEnd();
-        System.out.println("Start" + start);
+//        System.out.println("Start = " + start);
+//        System.out.println("End = " + end);
         if (start == end) {
-            try {
-                start = Utilities.getRowStart(txtDocumento, txtDocumento.getCaretPosition());
-                end = Utilities.getRowEnd(txtDocumento, txtDocumento.getCaretPosition());
-            } catch (Exception e) {
-            }
-            if (end == 0) {
+//            try {
+//                start = Utilities.getRowStart(txtDocumento, txtDocumento.getCaretPosition());
+//                end = Utilities.getRowEnd(txtDocumento, txtDocumento.getCaretPosition());
+//            } catch (Exception e) {
+//            }
+//            if (end == 0) {
                 return;
-            }
+//            }
         }
+        Document test = this.txtDocumento.getDocument();
+        
         StyledDocument doc = (StyledDocument) txtDocumento.getDocument();
         Element element = doc.getCharacterElement(start);
-        AttributeSet as = element.getAttributes();
-        
+        AttributeSet as = null;
+        if (attributeType.equals("align")) {
+            as = this.txtDocumento.getInputAttributes();
+        } else {
+            as = element.getAttributes();
+        }
         MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
         if (attributeType.equals("bold")) {
             StyleConstants.setBold(asNew, !StyleConstants.isBold(as));
@@ -763,9 +1037,15 @@ public class PrincipalScreen extends javax.swing.JFrame {
                 StyleConstants.setAlignment(asNew, StyleConstants.ALIGN_JUSTIFIED);
             }
             doc.setParagraphAttributes(start, end - start, asNew, true);
+//            return;
+        } else {
+            System.out.println("attributeType" + attributeType);
+            System.out.println("attributeType" + parameter);
+            asNew.addAttribute(attributeType, parameter);
+            doc.setParagraphAttributes(start, end - start, asNew, true);
         }
         doc.setCharacterAttributes(start, end - start, asNew, true);
-        System.out.println(this.txtDocumento.getText());
+//        System.out.println(this.txtDocumento.getText());
     }
     
     /**
@@ -801,7 +1081,7 @@ public class PrincipalScreen extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PrincipalScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+//        System.out.println("HOLA TODOSs");
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -812,7 +1092,7 @@ public class PrincipalScreen extends javax.swing.JFrame {
     
     public void setFonts() {
         String[] fontNames=GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        System.out.println(Arrays.toString(fontNames));
+//        System.out.println(Arrays.toString(fontNames));
 //        JLabel lbl = new JLabel("<u>U</u>");
 //        this.btnUnderline.setLabel("<html><u>U</u></html>");
         for (String fontName : fontNames) {
@@ -837,9 +1117,12 @@ public class PrincipalScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnCopy;
     private javax.swing.JButton btnCut;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteFile;
     private javax.swing.JButton btnExportTo;
+    private javax.swing.JButton btnExportTo1;
     private javax.swing.JButton btnItalic;
     private javax.swing.JButton btnLogFile;
+    private javax.swing.JButton btnLogFile1;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMyFiles;
     private javax.swing.JButton btnNewFile;
@@ -852,9 +1135,11 @@ public class PrincipalScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnSaveAs;
     private javax.swing.JButton btnSettings;
     private javax.swing.JButton btnShare;
+    private javax.swing.JButton btnShare1;
     private javax.swing.JButton btnUnderline;
     private javax.swing.JComboBox<String> cmbFonts;
     private javax.swing.JComboBox<String> cmbSizeFont;
+    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -872,8 +1157,11 @@ public class PrincipalScreen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JDialog jdOpenFile;
+    private javax.swing.JTable tblFiles;
     private javax.swing.JTextPane txtDocumento;
     // End of variables declaration//GEN-END:variables
 }
