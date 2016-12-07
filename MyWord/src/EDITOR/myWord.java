@@ -85,6 +85,9 @@ public class myWord  extends Thread{
         }
         System.out.println("Off");
     }
+//    public static Object[] read( String endpoint, Object objeto){
+//        return read(endpoint, objeto, null);
+//    }
     public static Object[] read( String endpoint, Object objeto){
         try {
             JSONObject data = new JSONObject();
@@ -98,6 +101,15 @@ public class myWord  extends Thread{
             SALIDA.writeInt(testing.length);
             SALIDA.write(testing);
             SALIDA.writeUTF(endpoint);
+//            try {
+//                if (endpoint.equals("updateFile")) {
+////                    byte[] fileX64 = content;
+//                    SALIDA.writeInt(fileX64.length);
+//                    SALIDA.write(fileX64);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             SALIDA.flush();
 //            SALIDA.writeUTF(data.toJSONString());
 //            DataInputStream ENTRADA = new DataInputStream(globalSocket.getInputStream());

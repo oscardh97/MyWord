@@ -20,7 +20,7 @@ public class SERVER {
     public static TDA_MAP clients = new TDA_MAP();
     public static Socket newClient;
     public static ServerSocket serverSocket;
-    private TDA_MAP openedFiles = new TDA_MAP();
+    public static TDA_MAP openedFiles = new TDA_MAP();
     public static void main(String[] args) {
         ORM = new SQL();
         try {
@@ -49,4 +49,7 @@ public class SERVER {
         System.out.println("@CLIENTS => " + clients.toString());
     }
     
+    public static void openFile() {
+        
+    }
 }

@@ -219,7 +219,7 @@ public class SQL {
            }
             System.out.println(query);
             try {
-                ResultSet response = cmdDB.executeQuery( query );  
+                ResultSet response = cmdDB.executeQuery(query);  
                 ResultSetMetaData resultMD = response.getMetaData();
                 JSONArray arregloResponse = new JSONArray();
                 while( response.next()){
@@ -229,6 +229,11 @@ public class SQL {
                         
                         String columnName = resultMD.getColumnName(i);
                         Object value = response.getObject(i);
+                        if (columnName.equals("CONTENT")) {
+                            System.out.println("DECODE 2 = " + new String(Base64.getDecoder().decode((byte[])response.getBytes(columnName))));
+                            value = new String(Base64.getDecoder().decode((byte[])response.getBytes(columnName)));
+//                            System.out.println(r);
+                        }
                         boolean esFecha = value instanceof Date;
                         boolean addQuoations = esFecha || value == null;
 
@@ -275,5 +280,39 @@ public class SQL {
             }
         }
         return false;
+    }
+    public boolean UPDATE(String tabla, JSONObject object) {
+        String insertQuery = "UPDATE `" + tabla +"` SET ";
+        Set kies = object.keySet();
+        Set<String> keys = object.keySet();
+        int cont = 0;
+        for (String key : keys) {
+            System.out.println(key + " = " + object.get(key));
+            if (key.equals("ID")) {
+                cont++;
+                continue;
+            }
+            insertQuery += "`" + key + "`=";
+            if((object.get(key) instanceof String && !object.get(key).equals("now()")) || object.get(key) instanceof byte[]){
+                insertQuery += "'" + object.get(key) + "'";
+            }else{
+                insertQuery += object.get(key);
+            }
+            if( cont < keys.size() - 1){
+                insertQuery += ",";
+            }
+            cont++;
+        }
+        insertQuery += " WHERE `ID`=" + object.get("ID");
+        System.out.println("@UPDATE = \n" + insertQuery);
+        try {
+            return cmdDB.execute( insertQuery );
+            
+        } catch (Exception e) {
+            System.out.println("Error UPDATE");
+            e.printStackTrace();
+            return false;
+        }
+        
     }
 }

@@ -57,8 +57,18 @@ public class CLIENTE extends Thread{
                         this.createFile(objectJSON);
                     } else if (endpointName.equals("readFiles")) {
                         this.readFiles(objectJSON);
+                    } else if (endpointName.equals("updateFile")) {
+                        
+//                        byte[] fileX64 = new byte[ENTRADA.readInt()];
+//                        ENTRADA.readFully(fileX64);
+//                        objectJSON.put("CONTENT", fileX64);
+                        this.updateFile(objectJSON);
                     } else if (endpointName.equals("deleteFiles")) {
                         this.deleteFiles(objectJSON);
+                    } else if (endpointName.equals("openFile")) {
+                        this.openFile(objectJSON);
+                    } else if (endpointName.equals("listPermissions")) {
+                        this.openFile(objectJSON);
                     }
                     
                     
@@ -68,8 +78,8 @@ public class CLIENTE extends Thread{
 //                    System.out.println(jsonQuery);
 //                    byte[] objeto = (byte[])jsonQuery.get("object");
                 } catch (Exception e ){
-                    e.printStackTrace();
-                    System.out.println("@Error " + e.toString());
+//                    e.printStackTrace();
+//                    System.out.println("@Error " + e.toString());
                     System.out.println("El cliente se jue");
                     socket.close();
                     break;
@@ -157,7 +167,7 @@ public class CLIENTE extends Thread{
     public void readFiles(JSONObject object) {
         try {
             responder(ORM.READ("FILE", 
-                new String[]{"ID", "NAME", "CREATION_USER","CREATION_DATE", "MODIFICATION_DATE"}, 
+                new String[]{"ID", "NAME", "CREATION_USER","CREATION_DATE", "MODIFICATION_DATE", "CONTENT"}, 
                 new Object[][]{{
                     "CREATION_USER", "=", this.id
                 }}, null),true
@@ -178,6 +188,67 @@ public class CLIENTE extends Thread{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void openFile(JSONObject object) {
+            JSONObject response = new JSONObject();
+        try {
+            String idFile = object.get("ID").toString();
+
+            if (SERVER.openedFiles.get(idFile) == null)
+                SERVER.openedFiles.put(idFile, new FILE(Integer.parseInt(object.get("ID").toString())));
+            
+            ((FILE)SERVER.openedFiles.get(idFile)).connectUser(this);
+            
+            response.put("success", true);
+            responder(response.toJSONString(),true);
+        } catch (Exception e) {
+            response.put("mensaje", "Error al abrir el archivo");
+            responder(response.toJSONString(),false);
+        }
+    }
+    public void updateFile(JSONObject object) {
+        try {
+            ORM.UPDATE("FILE", object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void listPermissions(JSONObject object) {
+    }
+    
+    public void shareFile(JSONObject object) {
+        int idFile = Integer.parseInt(object.get("idFile").toString());
+        int idUser = Integer.parseInt(object.get("idUser").toString());
+        int privilege = Integer.parseInt(object.get("privilege").toString());
+        
+        JSONArray privileges = (JSONArray)ORM.READ("USER", null, new Object[][]{
+            {"ID_FILE","=",idFile},
+            {"ID_USER","=",idUser}
+        }, null);
+        
+        JSONObject create = new JSONObject();
+        create.put("ID_USER", idUser);
+        create.put("ID_FILE", idFile);
+        create.put("PRIVILEGE", privilege);
+        if (privileges.size() == 0) {
+            if (privilege != 0) {
+                ORM.create("USER_X_FILE", create);
+            } 
+        } else {
+            JSONObject privilegeJSON = (JSONObject)privileges.get(0);
+            
+            if (privilege == 0) {
+                ORM.DELETE("USER_X_FILE", new Object[][]{
+                    {"ID","=",Integer.parseInt(privilegeJSON.get("ID").toString())}
+                });
+            } else {
+                ORM.UPDATE("USER_X_FILE", create);
+            }
+        }
+        JSONObject response = new JSONObject();
+        response.put("succes", true);
+        responder(response.toJSONString(),true);
     }
     
     public String toString() {

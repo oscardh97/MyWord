@@ -9,6 +9,7 @@ import static EDITOR.myWord.read;
 import java.awt.GraphicsEnvironment;
 import java.io.StringReader;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
@@ -24,12 +25,14 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
  * @author oscarito
  */
-public class PrincipalScreen extends javax.swing.JFrame {
+public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
     FILE myFile;
     int idUser;
 
@@ -38,6 +41,7 @@ public class PrincipalScreen extends javax.swing.JFrame {
         initComponents();
         setFonts();
         myFile = new FILE(idUser, this.txtDocumento);
+        
     }
     /**
      * Creates new form PrincipalScreen
@@ -65,6 +69,12 @@ public class PrincipalScreen extends javax.swing.JFrame {
         btnExportTo1 = new javax.swing.JButton();
         btnShare1 = new javax.swing.JButton();
         btnLogFile1 = new javax.swing.JButton();
+        jdShareFile = new javax.swing.JDialog();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
@@ -125,14 +135,14 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Name", "Creation User", "Creation Date", "Modification Date"
+                "Id", "Name", "Creation User", "Creation Date", "Modification Date", "Content"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -160,6 +170,11 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
         btnExportTo1.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/exportTo.png")); // NOI18N
         btnExportTo1.setToolTipText("Export To");
+        btnExportTo1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExportTo1MouseClicked(evt);
+            }
+        });
         btnExportTo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExportTo1ActionPerformed(evt);
@@ -212,6 +227,52 @@ public class PrincipalScreen extends javax.swing.JFrame {
                         .addComponent(btnLogFile1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jdShareFile.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jdShareFileComponentShown(evt);
+            }
+        });
+
+        jList1.setModel(new DefaultListModel());
+        jScrollPane3.setViewportView(jList1);
+
+        jCheckBox1.setText("Read");
+
+        jCheckBox2.setText("Write/Read");
+
+        jButton2.setText("Share");
+
+        javax.swing.GroupLayout jdShareFileLayout = new javax.swing.GroupLayout(jdShareFile.getContentPane());
+        jdShareFile.getContentPane().setLayout(jdShareFileLayout);
+        jdShareFileLayout.setHorizontalGroup(
+            jdShareFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jdShareFileLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(jdShareFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+        jdShareFileLayout.setVerticalGroup(
+            jdShareFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jdShareFileLayout.createSequentialGroup()
+                .addGroup(jdShareFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jdShareFileLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdShareFileLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jCheckBox1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox2)
+                        .addGap(62, 62, 62)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -354,6 +415,11 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
         btnSave.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/save.png")); // NOI18N
         btnSave.setToolTipText("Save File");
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSaveMouseClicked(evt);
+            }
+        });
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -712,6 +778,11 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
         txtDocumento.setContentType("text/html"); // NOI18N
         txtDocumento.setText("<html>\n  <head>\n  </head>\n  <body width=500>  \n <p>\n      \n    </p>\n  </body>\n</html>\n");
+        txtDocumento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtDocumentoMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(txtDocumento);
         txtDocumento.getAccessibleContext().setAccessibleName("");
 
@@ -870,7 +941,7 @@ public class PrincipalScreen extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        myFile.updateJSON();
+        myFile.toJSON();
 //        test();
 //        byte[] text = Base64.getEncoder().encode(this.txtDocumento.getText().getBytes());
 //        System.out.println("TEST BASE64" + new String(Base64.getDecoder().decode(text)));
@@ -884,7 +955,10 @@ public class PrincipalScreen extends javax.swing.JFrame {
         object.put("NAME", name);
         Object[] response = read("createFile", object);
         if ((boolean)response[0] == true) {
-            System.out.println(response.length);
+//            System.out.println();
+            JSONObject jsonFile = (JSONObject)response[1];
+            myFile.setId(Integer.parseInt(jsonFile.get("ID").toString()));
+            myFile.setName(jsonFile.get("NAME").toString());
 //            System.out.println(((JSONObject)response[1]).get("ID"));
 //            new PrincipalScreen(Integer.parseInt(((JSONObject)response[1]).get("ID").toString())).show();
         }
@@ -901,7 +975,8 @@ public class PrincipalScreen extends javax.swing.JFrame {
                 file.get("NAME"),
                 file.get("CREATION_USER"),
                 file.get("CREATION_DATE"),
-                file.get("MODIFICATION_DATE")
+                file.get("MODIFICATION_DATE"),
+                file.get("CONTENT")
             });
         }
 //        System.out.println("@FILES" + response.length);
@@ -946,6 +1021,41 @@ public class PrincipalScreen extends javax.swing.JFrame {
         deleteFiles(this.tblFiles.getSelectedRows());
         
     }//GEN-LAST:event_btnDeleteFileMouseClicked
+
+    private void btnExportTo1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportTo1MouseClicked
+        // TODO add your handling code here:
+        JSONParser jsonParser = new JSONParser();
+        JSONObject object = new JSONObject();
+        DefaultTableModel model = (DefaultTableModel)this.tblFiles.getModel();
+        int idFile = (int)model.getValueAt(this.tblFiles.getSelectedRow(), 0);
+        object.put("ID", idFile);
+        Object[] response = read("openFile", object);
+        if ((boolean)response[0] == true) {
+            myFile.setId(idFile);
+            myFile.setNameFile(model.getValueAt(this.tblFiles.getSelectedRow(), 1).toString());
+            myFile.setCreationUser(Integer.parseInt(model.getValueAt(this.tblFiles.getSelectedRow(), 2).toString()));
+            try {
+                myFile.renderText((JSONArray)jsonParser.parse(model.getValueAt(this.tblFiles.getSelectedRow(), 5).toString()));
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+    //            Logger.getLogger(PrincipalScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnExportTo1MouseClicked
+
+    private void txtDocumentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDocumentoMouseClicked
+        // TODO add your handling code here:
+        System.out.println(this.txtDocumento.getCaretPosition());
+    }//GEN-LAST:event_txtDocumentoMouseClicked
+
+    private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+        // TODO add your handling code here:
+        myFile.toJSON();
+    }//GEN-LAST:event_btnSaveMouseClicked
+
+    private void jdShareFileComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jdShareFileComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jdShareFileComponentShown
     public void test () {
         HTMLEditorKit htmlKit = new HTMLEditorKit();
         HTMLDocument htmlDoc = (HTMLDocument) htmlKit.createDefaultDocument();
@@ -1140,6 +1250,10 @@ public class PrincipalScreen extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbFonts;
     private javax.swing.JComboBox<String> cmbSizeFont;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1159,9 +1273,16 @@ public class PrincipalScreen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JDialog jdOpenFile;
+    private javax.swing.JDialog jdShareFile;
     private javax.swing.JTable tblFiles;
     private javax.swing.JTextPane txtDocumento;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
