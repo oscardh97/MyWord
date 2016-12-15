@@ -5,29 +5,25 @@
  */
 package EDITOR;
 
-import static EDITOR.myWord.read;
-import java.io.IOException;
+import static EDITOR.myWord.endpoint;
+import java.awt.event.KeyEvent;
 import java.io.StringReader;
 import java.util.Base64;
 import java.util.Stack;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Element;
 import javax.swing.text.ElementIterator;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -49,7 +45,7 @@ public class FILE extends Thread {
         this.txtDocument = txtDocument;
         this.bindEvents();
         isOpen = true;
-        start();
+//        start();
     }
 
     public FILE(int creationUser, JTextPane txtDocument) {
@@ -57,7 +53,7 @@ public class FILE extends Thread {
         this.txtDocument = txtDocument;
         this.bindEvents();
         isOpen = true;
-        start();
+//        start();
     }
         
     public FILE(int id, int creationUser, String name, JSONArray blocks, JTextPane txtDocument) {
@@ -68,14 +64,34 @@ public class FILE extends Thread {
         this.txtDocument = txtDocument;
         this.bindEvents();
         isOpen = true;
-        start();
+//        start();
     }
     public void run() {
+        JSONParser jsonParser = new JSONParser();
         System.out.println("@TEXT " + this.txtDocument.getText());
         while (isOpen) {
             try {
-                this.updateBlock();
-                sleep(5000);
+                
+                JSONObject object = new JSONObject();
+        
+                object.put("ID", this.id);
+                Object[] response = endpoint("readFileContent", object);
+                
+                
+                try {
+                    JSONArray json = (JSONArray)response[1];
+                    System.out.println("@@@JSON" + json.toJSONString());
+//                    this.renderText((JSONArray)json.get("CONTENT"));
+                    this.updateBlock(false);
+                    this.blocks = this.updateJSON();
+                    this.renderText((JSONArray)jsonParser.parse(((JSONObject)json.get(0)).get("CONTENT").toString()));
+                    sleep(5000);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+
+        //            Logger.getLogger(PrincipalScreen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+//                this.updateBlock();
             } catch (Exception e) {
             }
         }
@@ -107,6 +123,7 @@ public class FILE extends Thread {
         try {
             this.blocks = this.updateJSON();
             String textBase64 = null;
+            System.out.println("@BLQUES\n" + this.blocks.toJSONString());
             try {
                 textBase64 = Base64.getEncoder().encodeToString(this.blocks.toJSONString().getBytes());
             } catch (Exception e) {
@@ -115,9 +132,9 @@ public class FILE extends Thread {
             retVal.put("ID", id);
     //        retVal.put("CREATION_USER", this.creationUser);
             retVal.put("CONTENT", textBase64);
-            retVal.put("NAME", nameFile);
+//            retVal.put("NAME", nameFile);
             System.out.println("@FILE = " + retVal.toJSONString());
-            read("updateFile", retVal);
+            endpoint("updateFile", retVal);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,28 +142,34 @@ public class FILE extends Thread {
         return retVal;
     }
     
-    public void updateBlock() {
+    public void updateBlock(boolean unlock) {
         try {
             JSONObject retVal = new JSONObject();
 //            this.blocks = this.updateJSON();
             String textBase64 = null;
-            JSONArray blocks = this.getBlockById(actualBlock);
+            
+            if (this.actualBlock == null) return;
+            
+//            JSONArray blocks = this.getBlockById(actualBlock);
+            JSONArray blocks = this.getBlockByPosition(this.txtDocument.getCaretPosition());
+            System.out.println("EMPTY LINE");
             if (blocks.size() == 0) return;
             
             System.out.println("@ID_BLOCK " + actualBlock);
             System.out.println("BLOCK +++" + ((JSONObject)blocks.get(0)).toJSONString());
-            try {
-                textBase64 = Base64.getEncoder().encodeToString(((JSONObject)blocks.get(0)).toJSONString().getBytes());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                textBase64 = Base64.getEncoder().encodeToString(((JSONObject)blocks.get(0)).toJSONString());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             retVal.put("idFile", this.id);
             retVal.put("id", this.actualBlock);
+            retVal.put("unlock", unlock);
     //        retVal.put("CREATION_USER", this.creationUser);
-            retVal.put("content", textBase64);
+            retVal.put("content", ((JSONArray)((JSONObject)blocks.get(0)).get("content")).toJSONString());
 //            retVal.put("NAME", nameFile);
 //            System.out.println("@BLOCK = " + retVal.toJSONString());
-//            read("updateFile", retVal);
+            endpoint("updateBlock", retVal);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,17 +191,19 @@ public class FILE extends Thread {
     
     public JSONArray getBlocks (int pos, String idBlock) {
         JSONArray retBlocks = new JSONArray();
+        System.out.println("@TEXT[172]-------------->...." + this.txtDocument.getText());
         //Creating a new editor document
         
         HTMLEditorKit htmlKit = new HTMLEditorKit();
-//        HTMLDocument htmlDoc = (HTMLDocument) 
-//        HTMLDocument htmlDoc = (HTMLDocument) htmlKit.createDefaultDocument();
-        HTMLDocument htmlDoc = (HTMLDocument) this.txtDocument.getDocument();
-//        StyledDocument doc = (StyledDocument) this.txtDocument.getDocument();
+//        HTMLDocument htmlDoc = (HTMLDocument) this.txtDocument.getDocument();
+        HTMLDocument htmlDoc = (HTMLDocument) new HTMLDocument();
+        
         try {
             htmlKit.read(new StringReader(this.txtDocument.getText()), htmlDoc, 0);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e.toString());
+            return new JSONArray();
         }
         
         //Getting all blocks 
@@ -186,34 +211,37 @@ public class FILE extends Thread {
         Element element;
         int totalBlocks = 0;
         
+        boolean test = false;
+        
         //Iterate each block and get all attributes
         while ((element = iterator.next()) != null) {
-            
             JSONObject newBlock = new JSONObject();
             AttributeSet as = element.getAttributes();
             
             Object name = as.getAttribute(StyleConstants.NameAttribute);
-            String idBlockHTML = (String)as.getAttribute("idblock");
-            System.out.println("@idBlockHTML ---> " + idBlockHTML);
-            System.out.println("TEST   ---> " + as.getAttribute("idblock"));
-            MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
-            int idUser = as.getAttribute("idUser") != null ? (int)as.getAttribute("idUser") : -1;
+            System.out.println("TAG NAME " + name);
             
+            if (!test && name == HTML.Tag.BODY) 
+                test = true;
+            
+            if (!test) continue;
             int startBlock = element.getStartOffset();
             int endBlock = element.getEndOffset();
-            if ((name == HTML.Tag.CONTENT || name == HTML.Tag.P) && (idBlock == null || idBlock.equals(idBlockHTML)) 
+            String idBlockHTML = (String)as.getAttribute("idblock");
+            if ((name == HTML.Tag.CONTENT || name == HTML.Tag.P) && (idBlock == null || idBlock.equals(idBlockHTML))
                     && ((pos == -1) || (pos >= startBlock && pos < endBlock))) {
-                
-//                if (pos != 0 && pos >= startBlock && pos < endBlock) {
-//                    System.out.println("<content>" + startBlock);
-//                    System.out.println("POS: " + pos);
-//                    System.out.println("idUser -> " + as.getAttribute("idUser"));
-//                    System.out.println("</content>" + endBlock);
+                    System.out.println("@idBlockHTML ---> " + idBlockHTML);
+                    System.out.println("TEST   ---> " + as.getAttribute("idblock"));
+                    MutableAttributeSet asNew = new SimpleAttributeSet(as.copyAttributes());
+                    int idUser = as.getAttribute("idUser") != null ? (int)as.getAttribute("idUser") : -1;
+                    
                     try {
+//                        is
+//                        htmlDoc.replace(idUser, idUser, idBlock, as);
                         System.out.println("@BLOCK = " + htmlDoc.getText(startBlock, endBlock - startBlock));
                     } catch (Exception e) {
+                        continue;
                     }
-//                }
                 
                 int count = element.getElementCount();
                 JSONArray lineas = new JSONArray();
@@ -231,29 +259,27 @@ public class FILE extends Thread {
                 newBlock.put("idUser", idUser);
                 
                 
-                
-//                System.out.println("@ID = " + idBlockHTML);
-                if (lineas.size() > 0) {
+//                if (lineas.size() > 0) {
                     if (idBlockHTML == null) {
-                        System.out.println("idBlockHTML === null");
                         idBlockHTML = UUID.randomUUID().toString() + totalBlocks;
                         asNew.addAttribute("idblock", idBlockHTML);
                         htmlDoc.setParagraphAttributes(startBlock, endBlock - startBlock - 1, asNew, true);
                     }
+                    
                     newBlock.put("content", lineas);
                     newBlock.put("id", idBlockHTML);
                     retBlocks.add(newBlock);
-                }
+//                }
                 totalBlocks++;
                 if (idBlock != null || pos != -1) {
                     this.actualBlock = idBlockHTML;
-//                    System.out.println("@retBlocks " + retBlocks.toJSONString());
                     return retBlocks;
                 }
             }
         }
-//        this.txtDocument.setDocument(htmlDoc);
-//        System.out.println("@retBlocks " + retBlocks.toJSONString());
+        this.txtDocument.setDocument(htmlDoc);
+        
+        System.out.println("@TEXT[241]-------------->...." + this.txtDocument.getText());
         return retBlocks;
     }
     private JSONObject getHTMLLine(Element element, String text) {
@@ -313,50 +339,108 @@ public class FILE extends Thread {
     }
     
     public void renderText(JSONArray blocks) {
-        String text = "";
-        this.txtDocument.setContentType("text/html");
-        this.txtDocument.setText("<html></html>");
-        for (int i = 0; i < blocks.size(); i++) {
-            JSONObject block = (JSONObject)blocks.get(i);
-            JSONArray lines = (JSONArray)block.get("content");
-            text += "<p";
-            try {
-                text += " idblock=\"" + block.get("id").toString() + "\">";
-            } catch (Exception e) {
+        try {
+            JSONParser jsonParser = new JSONParser();
+            String text = "";
+            this.txtDocument.setContentType("text/html");
+            this.txtDocument.setText("<html><head></head><body>");
+            for (int i = 0; i < blocks.size(); i++) {
+                JSONObject block = (JSONObject)blocks.get(i);
+
+                System.out.println("@this.actualBlock -> " + this.actualBlock);
+                System.out.println("@this.block -> " + block.get("id").toString());
+                if (this.actualBlock != null) {
+                    if (this.actualBlock.equals(block.get("id").toString())) {
+                        for (Object myBlock : this.blocks) {
+                            JSONObject myBlockJson = (JSONObject)myBlock;
+
+                            if (myBlockJson.get("id").toString().equals(block.get("id").toString())) {
+                                block = (JSONObject)jsonParser.parse(myBlockJson.toJSONString());
+                                System.out.println("IGUALES!!!!!!!!!!!!!!!!!!!");
+                                break;
+                            }
+                        }
+                    }
+                }
+                JSONArray lines = null;
+                try {
+                    lines = (JSONArray)block.get("content");
+                } catch (Exception e) {
+                    lines = (JSONArray)jsonParser.parse(block.get("content").toString());
+                }
+
+                text += "<p";
+                try {
+                    text += " idblock=\"" + block.get("id").toString() + "\">";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    text += ">\n";
+                }
+                for (int j = 0; j < lines.size(); j++) {
+    //                text += lines.get(i);
+                    JSONObject line = (JSONObject)lines.get(j);
+    
+                    if (line.get("text") == null) {
+                        continue;
+                    }
+                    String textLine = new String(Base64.getDecoder().decode(line.get("text").toString()));
+                    System.out.println(textLine);
+                    text += textLine;
+                }
+                text += "</p>";
             }
-            for (int j = 0; j < lines.size(); j++) {
-//                text += lines.get(i);
-                JSONObject line = (JSONObject)lines.get(j);
-                String textLine = new String(Base64.getDecoder().decode(line.get("text").toString()));
-                System.out.println(textLine);
-                text += textLine;
-            }
-            text += "</p>";
-            try {
-                
-                MutableAttributeSet asNew = new SimpleAttributeSet();
-                asNew.addAttribute("id", block.get("id").toString());
-                this.txtDocument.getDocument().insertString(this.txtDocument.getDocument().getLength(), text, asNew);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+            this.txtDocument.setText(text + "</body></html>");
+
+    //        this.txtDocument.getDocument().insertString(id, text, a);
+    //        System.out.println("@TEXT(1) = " + this.txtDocument.getText());
+            updateJSON();
+        } catch (Exception Ex) {
+            Ex.printStackTrace();
         }
-        
-        this.txtDocument.setText(text);
-       
-//        this.txtDocument.getDocument().insertString(id, text, a);
-        System.out.println("@TEXT(1) = " + this.txtDocument.getText());
-        updateJSON();
-        
 //        HTMLDocument htmlDoc = (HTMLDocument) this.txtDocument.getDocument();
-        System.out.println("@TEXT = " + this.txtDocument.getText());
-        start();
+//        System.out.println("@TEXT = " + this.txtDocument.getText());
+//        start();
     }
     public void bindEvents() {
         FILE _self = this;
         this.txtDocument.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                _self.getBlockByPosition(_self.txtDocument.getCaretPosition());
+                try {
+                    JSONArray blocks = _self.getBlockByPosition(_self.txtDocument.getCaretPosition());
+                    
+                    if (blocks.size() == 0) return;
+                    JSONObject selectedBlock = (JSONObject)blocks.get(0);
+                    System.out.println("@SELECTED_BLOCK\n" + selectedBlock.toJSONString());
+                    
+                    selectedBlock.put("idFile", _self.id);
+                    endpoint("getLock", selectedBlock);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        this.txtDocument.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                try {
+//                    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+//                        System.out.println("**************ENTER*****************");
+//                    }
+//                    _self.blocks = _self.updateJSON();
+//                    
+//                    
+//                    JSONArray blocks = _self.getBlockByPosition(_self.txtDocument.getCaretPosition());
+//                    
+//                    if (blocks.size() == 0) return;
+//                    JSONObject selectedBlock = (JSONObject)blocks.get(0);
+//                    System.out.println("@SELECTED_BLOCK\n" + selectedBlock.toJSONString());
+//                    
+//                    selectedBlock.put("idFile", _self.id);
+//                    endpoint("getLock", selectedBlock);
+//                    System.out.println("KEY PRESS ++++++++++++++++++++++++++++++>" + KeyEvent.VK_ENTER);
+                } catch (Exception e) {
+                }
             }
         });
     }

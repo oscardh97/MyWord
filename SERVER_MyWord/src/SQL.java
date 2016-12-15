@@ -230,8 +230,13 @@ public class SQL {
                         String columnName = resultMD.getColumnName(i);
                         Object value = response.getObject(i);
                         if (columnName.equals("CONTENT")) {
-                            System.out.println("DECODE 2 = " + new String(Base64.getDecoder().decode((byte[])response.getBytes(columnName))));
-                            value = new String(Base64.getDecoder().decode((byte[])response.getBytes(columnName)));
+                            try {
+                                System.out.println("DECODE 2 = " + new String(Base64.getDecoder().decode((byte[])response.getBytes(columnName))));
+                                value = new String(Base64.getDecoder().decode((byte[])response.getBytes(columnName)));
+                            } catch (Exception e) {
+                                value = "";
+                            }
+                           
 //                            System.out.println(r);
                         }
                         boolean esFecha = value instanceof Date;

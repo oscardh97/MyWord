@@ -45,10 +45,15 @@ public class SERVER {
         }
     }
     public static void loginClient(CLIENTE newClient) {
-        clients.put(newClient.getId() + "", newClient);
+        clients.put(newClient.getUserId() + "", newClient);
         System.out.println("@CLIENTS => " + clients.toString());
     }
     
+    public static void logoutClient(CLIENTE newClient) {
+        if (clients.get(newClient.getUserId() + "") != null) {
+            clients.remove(newClient.getUserId() + "");
+        }
+    }
     public static void openFile() {
         
     }

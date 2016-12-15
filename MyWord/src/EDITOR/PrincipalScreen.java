@@ -5,7 +5,7 @@
  */
 package EDITOR;
 
-import static EDITOR.myWord.read;
+import static EDITOR.myWord.endpoint;
 import java.awt.GraphicsEnvironment;
 import java.io.StringReader;
 import javax.swing.DefaultComboBoxModel;
@@ -35,7 +35,22 @@ import org.json.simple.parser.ParseException;
 public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
     FILE myFile;
     int idUser;
+    boolean sharedFiles;
+    public class filePrivilege {
+        int idUser, idFile, privilege;
+        String nickName;
 
+        public filePrivilege(int idUser, int idFile, int privilege, String nickName) {
+            this.idUser = idUser;
+            this.idFile = idFile;
+            this.privilege = privilege;
+            this.nickName = nickName;
+        }
+        public String toString() {
+            return this.nickName;
+        }
+        
+    }
     public PrincipalScreen(int idUser) {
         this.idUser = idUser;
         initComponents();
@@ -69,11 +84,12 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
         btnExportTo1 = new javax.swing.JButton();
         btnShare1 = new javax.swing.JButton();
         btnLogFile1 = new javax.swing.JButton();
+        btnOpenFile1 = new javax.swing.JButton();
         jdShareFile = new javax.swing.JDialog();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        lstUsers = new javax.swing.JList<>();
+        chkRead = new javax.swing.JCheckBox();
+        chkWrite = new javax.swing.JCheckBox();
         jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -84,7 +100,6 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
         btnCompleteLog = new javax.swing.JButton();
         btnMyFiles = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
-        btnProfile = new javax.swing.JButton();
         btnSettings = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -111,9 +126,6 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
         btnAlignLeft = new javax.swing.JButton();
         btnAlignJustified = new javax.swing.JButton();
         btnAlignRight = new javax.swing.JButton();
-        jPanel8 = new javax.swing.JPanel();
-        btnNumberList = new javax.swing.JButton();
-        btnNormalList = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDocumento = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -124,6 +136,7 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
 
+        jdOpenFile.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jdOpenFile.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jdOpenFileComponentShown(evt);
@@ -135,14 +148,14 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
 
             },
             new String [] {
-                "Id", "Name", "Creation User", "Creation Date", "Modification Date", "Content"
+                "Id", "Name", "Creation User", "Creation Date", "Modification Date", "Content", "Privilege"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -162,11 +175,6 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 btnDeleteFileMouseClicked(evt);
             }
         });
-        btnDeleteFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteFileActionPerformed(evt);
-            }
-        });
 
         btnExportTo1.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/exportTo.png")); // NOI18N
         btnExportTo1.setToolTipText("Export To");
@@ -175,25 +183,23 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 btnExportTo1MouseClicked(evt);
             }
         });
-        btnExportTo1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExportTo1ActionPerformed(evt);
-            }
-        });
 
         btnShare1.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/shareFile.png")); // NOI18N
         btnShare1.setToolTipText("Share File");
-        btnShare1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShare1ActionPerformed(evt);
+        btnShare1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnShare1MouseClicked(evt);
             }
         });
 
         btnLogFile1.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logFile.png")); // NOI18N
         btnLogFile1.setToolTipText("View Log File");
-        btnLogFile1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogFile1ActionPerformed(evt);
+
+        btnOpenFile1.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/openFile.png")); // NOI18N
+        btnOpenFile1.setToolTipText("Open File");
+        btnOpenFile1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnOpenFile1MouseClicked(evt);
             }
         });
 
@@ -204,20 +210,24 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
             .addGroup(jdOpenFileLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addGroup(jdOpenFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnOpenFile1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnShare1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExportTo1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDeleteFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogFile1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 43, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         jdOpenFileLayout.setVerticalGroup(
             jdOpenFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jdOpenFileLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jdOpenFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdOpenFileLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jdOpenFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jdOpenFileLayout.createSequentialGroup()
+                        .addGap(0, 11, Short.MAX_VALUE)
+                        .addComponent(btnOpenFile1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnDeleteFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnExportTo1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,24 +235,50 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                         .addComponent(btnShare1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11)
                         .addComponent(btnLogFile1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
 
+        jdShareFile.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jdShareFile.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jdShareFileComponentShown(evt);
             }
         });
 
-        jList1.setModel(new DefaultListModel());
-        jScrollPane3.setViewportView(jList1);
+        lstUsers.setModel(new DefaultListModel());
+        lstUsers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstUsersMouseClicked(evt);
+            }
+        });
+        lstUsers.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                lstUsersPropertyChange(evt);
+            }
+        });
+        lstUsers.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstUsersValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(lstUsers);
 
-        jCheckBox1.setText("Read");
+        chkRead.setText("Read");
 
-        jCheckBox2.setText("Write/Read");
+        chkWrite.setText("Write/Read");
+        chkWrite.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chkWriteItemStateChanged(evt);
+            }
+        });
 
         jButton2.setText("Share");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jdShareFileLayout = new javax.swing.GroupLayout(jdShareFile.getContentPane());
         jdShareFile.getContentPane().setLayout(jdShareFileLayout);
@@ -253,8 +289,8 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(jdShareFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBox1)
+                    .addComponent(chkWrite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(chkRead)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
@@ -267,9 +303,9 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdShareFileLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jCheckBox1)
+                        .addComponent(chkRead)
                         .addGap(18, 18, 18)
-                        .addComponent(jCheckBox2)
+                        .addComponent(chkWrite)
                         .addGap(62, 62, 62)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(46, Short.MAX_VALUE))
@@ -289,11 +325,6 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 btnNewFileMouseClicked(evt);
             }
         });
-        btnNewFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewFileActionPerformed(evt);
-            }
-        });
 
         btnOpenFile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/openFile.png")); // NOI18N
         btnOpenFile.setToolTipText("Open File");
@@ -302,14 +333,14 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 btnOpenFileMouseClicked(evt);
             }
         });
-        btnOpenFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOpenFileActionPerformed(evt);
-            }
-        });
 
         btnCompleteLog.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logFile.png")); // NOI18N
         btnCompleteLog.setToolTipText("Open Complete Log");
+        btnCompleteLog.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCompleteLogMouseClicked(evt);
+            }
+        });
         btnCompleteLog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCompleteLogActionPerformed(evt);
@@ -318,9 +349,9 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
 
         btnMyFiles.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/myFiles.png")); // NOI18N
         btnMyFiles.setToolTipText("Open My Files");
-        btnMyFiles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMyFilesActionPerformed(evt);
+        btnMyFiles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMyFilesMouseClicked(evt);
             }
         });
 
@@ -348,27 +379,14 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
 
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Account"));
 
-        btnProfile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/user.png")); // NOI18N
-        btnProfile.setToolTipText("My Profile");
-        btnProfile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProfileActionPerformed(evt);
-            }
-        });
-
         btnSettings.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/configuration.png")); // NOI18N
         btnSettings.setToolTipText("Settings");
-        btnSettings.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSettingsActionPerformed(evt);
-            }
-        });
 
         btnLogout.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logout.png")); // NOI18N
         btnLogout.setToolTipText("Logout");
-        btnLogout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogoutActionPerformed(evt);
+        btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogoutMouseClicked(evt);
             }
         });
 
@@ -377,16 +395,13 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(76, 76, 76)
                 .addComponent(btnSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(btnSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -420,51 +435,21 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 btnSaveMouseClicked(evt);
             }
         });
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
 
         btnSaveAs.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/saveAs.png")); // NOI18N
         btnSaveAs.setToolTipText("Save File As");
-        btnSaveAs.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveAsActionPerformed(evt);
-            }
-        });
 
         btnExportTo.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/exportTo.png")); // NOI18N
         btnExportTo.setToolTipText("Export To");
-        btnExportTo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExportToActionPerformed(evt);
-            }
-        });
 
         btnDelete.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/deleteFile.png")); // NOI18N
         btnDelete.setToolTipText("Delete File");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
 
         btnLogFile.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/logFile.png")); // NOI18N
         btnLogFile.setToolTipText("View Log File");
-        btnLogFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogFileActionPerformed(evt);
-            }
-        });
 
         btnShare.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/shareFile.png")); // NOI18N
         btnShare.setToolTipText("Share File");
-        btnShare.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShareActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -511,20 +496,10 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
         btnCut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/EDITOR/cut.png"))); // NOI18N
         btnCut.setText("Cut");
         btnCut.setToolTipText("Cut");
-        btnCut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCutActionPerformed(evt);
-            }
-        });
 
         btnPaste.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/paste.png")); // NOI18N
         btnPaste.setText("Paste");
         btnPaste.setToolTipText("Paste");
-        btnPaste.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPasteActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -661,11 +636,6 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 btnAlignJustifiedMouseClicked(evt);
             }
         });
-        btnAlignJustified.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlignJustifiedActionPerformed(evt);
-            }
-        });
 
         btnAlignRight.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/alignRight.png")); // NOI18N
         btnAlignRight.setToolTipText("Align Right");
@@ -703,35 +673,6 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Lists"));
-
-        btnNumberList.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/numbersList.png")); // NOI18N
-        btnNumberList.setToolTipText("Numeric List");
-
-        btnNormalList.setIcon(new javax.swing.ImageIcon("/media/oscarito/Datos/UNITEC/2016/IV PERIODO/ESTRUCTURA DE DATOS II/MyWord/MyWord/src/EDITOR/normalList.png")); // NOI18N
-        btnNormalList.setToolTipText("Normal List");
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(btnNormalList)
-                .addGap(26, 26, 26)
-                .addComponent(btnNumberList)
-                .addGap(33, 33, 33))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnNormalList)
-                    .addComponent(btnNumberList))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -742,22 +683,16 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(245, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Text", jPanel3);
@@ -773,14 +708,19 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, Short.MAX_VALUE)
         );
 
         txtDocumento.setContentType("text/html"); // NOI18N
-        txtDocumento.setText("<html>\n  <head>\n  </head>\n  <body width=500>  \n <p>\n      \n    </p>\n  </body>\n</html>\n");
+        txtDocumento.setText("");
         txtDocumento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtDocumentoMouseClicked(evt);
+            }
+        });
+        txtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDocumentoKeyReleased(evt);
             }
         });
         jScrollPane2.setViewportView(txtDocumento);
@@ -830,117 +770,44 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAlignJustifiedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlignJustifiedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAlignJustifiedActionPerformed
-
-    private void btnPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnPasteActionPerformed
-
-    private void btnCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCutActionPerformed
-
-    private void btnShareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShareActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnShareActionPerformed
-
-    private void btnLogFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLogFileActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void btnExportToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportToActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnExportToActionPerformed
-
-    private void btnSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSaveAsActionPerformed
-
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void btnNewFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNewFileActionPerformed
-
-    private void btnOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnOpenFileActionPerformed
-
-    private void btnCompleteLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteLogActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCompleteLogActionPerformed
-
-    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnProfileActionPerformed
-
-    private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSettingsActionPerformed
-
-    private void btnMyFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyFilesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnMyFilesActionPerformed
-
-    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnBoldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBoldMouseClicked
-        // TODO add your handling code here:
         setTextAttribute("bold");
     }//GEN-LAST:event_btnBoldMouseClicked
 
     private void btnItalicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnItalicMouseClicked
-        // TODO add your handling code here:
         setTextAttribute("italic");
     }//GEN-LAST:event_btnItalicMouseClicked
 
     private void btnUnderlineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUnderlineMouseClicked
-        // TODO add your handling code here:
         setTextAttribute("underline");
     }//GEN-LAST:event_btnUnderlineMouseClicked
 
     private void cmbFontsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbFontsItemStateChanged
-        // TODO add your handling code here:
         setTextAttribute("fontFamily", this.cmbFonts.getSelectedItem());
     }//GEN-LAST:event_cmbFontsItemStateChanged
 
     private void cmbSizeFontItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSizeFontItemStateChanged
-        // TODO add your handling code here:
         setTextAttribute("fontSize", this.cmbSizeFont.getSelectedItem());
     }//GEN-LAST:event_cmbSizeFontItemStateChanged
 
     private void btnAlignCenterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlignCenterMouseClicked
-        // TODO add your handling code here:
         setTextAttribute("align", "center");
     }//GEN-LAST:event_btnAlignCenterMouseClicked
 
     private void btnAlignLeftMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlignLeftMouseClicked
-        // TODO add your handling code here:
         setTextAttribute("align", "left");
     }//GEN-LAST:event_btnAlignLeftMouseClicked
 
     private void btnAlignRightMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlignRightMouseClicked
-        // TODO add your handling code here:
         setTextAttribute("align", "right");
     }//GEN-LAST:event_btnAlignRightMouseClicked
 
     private void btnAlignJustifiedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlignJustifiedMouseClicked
-        // TODO add your handling code here:
         setTextAttribute("align", "justified");
     }//GEN-LAST:event_btnAlignJustifiedMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
         myFile.toJSON();
 //        test();
 //        byte[] text = Base64.getEncoder().encode(this.txtDocumento.getText().getBytes());
@@ -949,25 +816,46 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
 //        System.out.println(this.txtDocumento.getText());
     }//GEN-LAST:event_jButton1MouseClicked
 
+    
+    /**
+     * Open a dialog to ask the name of the new file and create in DB
+     * @param evt 
+     */
     private void btnNewFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewFileMouseClicked
         String name = JOptionPane.showInputDialog("Name: ", "New File");
+        if (name == null) {
+            return;
+        }
+        
+        if (name.isEmpty()) {
+            return;
+        }
+        
         JSONObject object = new JSONObject();
         object.put("NAME", name);
-        Object[] response = read("createFile", object);
+        Object[] response = endpoint("createFile", object);
         if ((boolean)response[0] == true) {
-//            System.out.println();
             JSONObject jsonFile = (JSONObject)response[1];
             myFile.setId(Integer.parseInt(jsonFile.get("ID").toString()));
             myFile.setName(jsonFile.get("NAME").toString());
-//            System.out.println(((JSONObject)response[1]).get("ID"));
-//            new PrincipalScreen(Integer.parseInt(((JSONObject)response[1]).get("ID").toString())).show();
         }
     }//GEN-LAST:event_btnNewFileMouseClicked
 
+    /**
+     * List my files
+     * @param evt 
+     */
     private void jdOpenFileComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jdOpenFileComponentShown
-        // TODO add your handling code here:
+        
         DefaultTableModel tbl = (DefaultTableModel)this.tblFiles.getModel();
-        JSONArray response = (JSONArray)read("readFiles", null)[1];
+        tbl.setRowCount(0);
+        JSONArray response = (JSONArray)endpoint(this.sharedFiles ? "readSharedFiles" : "readFiles", null)[1];
+        this.btnDeleteFile.setEnabled(!this.sharedFiles);
+//        this.btnExportTo1.setEnabled(this.sharedFiles);
+        this.btnShare1.setEnabled(!this.sharedFiles);
+        this.btnLogFile1.setEnabled(!this.sharedFiles);
+ 
+//        JSONArray response = (JSONArray)endpoint("readSharedFiles", null)[1];
         for (Object object : response) {
             JSONObject file = (JSONObject)object;
             tbl.addRow(new Object[] {
@@ -976,7 +864,8 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
                 file.get("CREATION_USER"),
                 file.get("CREATION_DATE"),
                 file.get("MODIFICATION_DATE"),
-                file.get("CONTENT")
+                file.get("CONTENT"),
+                file.get("PRIVILEGE") != null ? Integer.parseInt(file.get("PRIVILEGE").toString()) : 2,
             });
         }
 //        System.out.println("@FILES" + response.length);
@@ -984,28 +873,12 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
     }//GEN-LAST:event_jdOpenFileComponentShown
 
     private void btnOpenFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOpenFileMouseClicked
-        // TODO add your handling code here:
+        this.sharedFiles = false;
         this.jdOpenFile.pack();
         this.jdOpenFile.setLocationRelativeTo(this);
         this.jdOpenFile.setVisible(true);
     }//GEN-LAST:event_btnOpenFileMouseClicked
-
-    private void btnDeleteFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteFileActionPerformed
-
-    private void btnExportTo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportTo1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnExportTo1ActionPerformed
-
-    private void btnShare1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShare1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnShare1ActionPerformed
-
-    private void btnLogFile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogFile1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLogFile1ActionPerformed
-    public void deleteFiles(int[] indexFiles) {
+        public void deleteFiles(int[] indexFiles) {
         DefaultTableModel model = (DefaultTableModel)this.tblFiles.getModel();
         JSONArray ids = new JSONArray();
         JSONObject object = new JSONObject();
@@ -1014,48 +887,179 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
 //            System.out.println("@ids[i]" + ids[i]);
         }
         object.put("IDS", ids);
-        read("deleteFiles", object);
+        endpoint("deleteFiles", object);
+//        object.put("ID", ids.get(0));
+//        endpoint("readUsersXFile", object);
     }
     private void btnDeleteFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteFileMouseClicked
-        // TODO add your handling code here:
         deleteFiles(this.tblFiles.getSelectedRows());
         
     }//GEN-LAST:event_btnDeleteFileMouseClicked
 
     private void btnExportTo1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportTo1MouseClicked
-        // TODO add your handling code here:
-        JSONParser jsonParser = new JSONParser();
-        JSONObject object = new JSONObject();
-        DefaultTableModel model = (DefaultTableModel)this.tblFiles.getModel();
-        int idFile = (int)model.getValueAt(this.tblFiles.getSelectedRow(), 0);
-        object.put("ID", idFile);
-        Object[] response = read("openFile", object);
-        if ((boolean)response[0] == true) {
-            myFile.setId(idFile);
-            myFile.setNameFile(model.getValueAt(this.tblFiles.getSelectedRow(), 1).toString());
-            myFile.setCreationUser(Integer.parseInt(model.getValueAt(this.tblFiles.getSelectedRow(), 2).toString()));
-            try {
-                myFile.renderText((JSONArray)jsonParser.parse(model.getValueAt(this.tblFiles.getSelectedRow(), 5).toString()));
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-    //            Logger.getLogger(PrincipalScreen.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        
     }//GEN-LAST:event_btnExportTo1MouseClicked
 
     private void txtDocumentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDocumentoMouseClicked
-        // TODO add your handling code here:
         System.out.println(this.txtDocumento.getCaretPosition());
     }//GEN-LAST:event_txtDocumentoMouseClicked
 
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
-        // TODO add your handling code here:
         myFile.toJSON();
+        myFile.start();
     }//GEN-LAST:event_btnSaveMouseClicked
 
     private void jdShareFileComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jdShareFileComponentShown
-        // TODO add your handling code here:
     }//GEN-LAST:event_jdShareFileComponentShown
+
+    private void btnShare1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnShare1MouseClicked
+        // TODO add your handling code here:
+        int indexFile = this.tblFiles.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel)this.tblFiles.getModel();
+        JSONObject object = new JSONObject();
+        int idFile = (int)model.getValueAt(indexFile, 0);
+//        object.put("IDS", ids);
+//        endpoint("deleteFiles", object);
+        object.put("ID", idFile);
+        Object[] response = endpoint("readUsersXFile", object);
+        if ((boolean)response[0] == true) {
+            this.jdShareFile.pack();
+            this.jdShareFile.setLocationRelativeTo(this);
+            this.jdShareFile.setVisible(true);
+            
+            JSONArray files = (JSONArray)response[1];
+            
+            for (Object file : files) {
+                JSONObject JSONfile = (JSONObject)file;
+                DefaultListModel modelo = (DefaultListModel)this.lstUsers.getModel();
+                modelo.clear();
+                System.out.println("@PRIVILEGE = " + JSONfile.toJSONString());
+                modelo.addElement(new filePrivilege(
+                        Integer.parseInt(JSONfile.get("ID").toString()),
+                        idFile,
+                        JSONfile.get("PRIVILEGE") != null ? Integer.parseInt(JSONfile.get("PRIVILEGE").toString()) : 0,
+                        JSONfile.get("NICKNAME").toString()
+                ));
+            }
+        }
+    }//GEN-LAST:event_btnShare1MouseClicked
+
+    private void lstUsersPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lstUsersPropertyChange
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_lstUsersPropertyChange
+
+    private void lstUsersValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstUsersValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lstUsersValueChanged
+
+    private void lstUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstUsersMouseClicked
+        // TODO add your handling code here:
+        try {
+            Object[] selected = this.lstUsers.getSelectedValues();
+            
+            if (selected.length == 0) return;
+            
+            filePrivilege privilege = ((filePrivilege)selected[0]);
+            
+//            if (privilege.privilege == 1) {
+                this.chkRead.setSelected(privilege.privilege != 0);
+                this.chkWrite.setSelected(privilege.privilege == 2);
+//            }
+//            System.out.println("@SELECTED " + .toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_lstUsersMouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        
+        Object[] selected = this.lstUsers.getSelectedValues();
+
+        if (selected.length == 0) return;
+
+        filePrivilege privilege = ((filePrivilege)selected[0]);
+        
+        JSONObject object = new JSONObject();
+        
+        object.put("idFile", privilege.idFile);
+        object.put("idUser", privilege.idUser);
+        
+        if (this.chkWrite.isSelected()) {
+            object.put("privilege", 2);
+        } else if (this.chkRead.isSelected()) {
+            object.put("privilege", 1);
+        } else {
+            object.put("privilege", 0);
+        }
+        endpoint("shareFile",object);
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void chkWriteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkWriteItemStateChanged
+        // TODO add your handling code here:
+        this.chkRead.setSelected(true);
+    }//GEN-LAST:event_chkWriteItemStateChanged
+
+    private void btnMyFilesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMyFilesMouseClicked
+        // TODO add your handling code here:
+        this.sharedFiles = true;
+        this.jdOpenFile.pack();
+        this.jdOpenFile.setLocationRelativeTo(this);
+        this.jdOpenFile.setVisible(true);
+    }//GEN-LAST:event_btnMyFilesMouseClicked
+
+    private void btnOpenFile1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOpenFile1MouseClicked
+        // TODO add your handling code here:
+        JSONParser jsonParser = new JSONParser();
+        JSONObject object = new JSONObject();
+        DefaultTableModel model = (DefaultTableModel)this.tblFiles.getModel();
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this.jdOpenFile, "You didn't select any file", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } 
+        int idFile = (int)model.getValueAt(this.tblFiles.getSelectedRow(), 0);
+        int privilege = (int)model.getValueAt(this.tblFiles.getSelectedRow(), 6);
+        
+        object.put("ID", idFile);
+        Object[] response = endpoint("openFile", object);
+        if ((boolean)response[0] == true) {
+            myFile.setId(idFile);
+            myFile.setNameFile(model.getValueAt(this.tblFiles.getSelectedRow(), 1).toString());
+            myFile.setCreationUser(Integer.parseInt(model.getValueAt(this.tblFiles.getSelectedRow(), 2).toString()));
+            
+            if (privilege == 1)
+                this.txtDocumento.disable();
+            else
+                this.txtDocumento.enable();
+            
+            this.txtDocumento.setEditable(privilege != 1);
+            try {
+                myFile.renderText((JSONArray)jsonParser.parse(model.getValueAt(this.tblFiles.getSelectedRow(), 5).toString()));
+            } catch (ParseException ex) {
+//                ex.printStackTrace();
+            }
+            myFile.start();
+        }
+    }//GEN-LAST:event_btnOpenFile1MouseClicked
+
+    private void btnCompleteLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteLogActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCompleteLogActionPerformed
+
+    private void btnCompleteLogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCompleteLogMouseClicked
+        // TODO add your handling code here:
+        new LOG("getCompleteLog").show();
+    }//GEN-LAST:event_btnCompleteLogMouseClicked
+
+    private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new LOGIN(null, true).show();
+    }//GEN-LAST:event_btnLogoutMouseClicked
+
+    private void txtDocumentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocumentoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDocumentoKeyReleased
     public void test () {
         HTMLEditorKit htmlKit = new HTMLEditorKit();
         HTMLDocument htmlDoc = (HTMLDocument) htmlKit.createDefaultDocument();
@@ -1146,7 +1150,7 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
             } else if (alignTo.equals("justified")) {
                 StyleConstants.setAlignment(asNew, StyleConstants.ALIGN_JUSTIFIED);
             }
-            doc.setParagraphAttributes(start, end - start, asNew, true);
+            doc.setParagraphAttributes(start, end - start - 1, asNew, true);
 //            return;
         } else {
             System.out.println("attributeType" + attributeType);
@@ -1236,24 +1240,21 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMyFiles;
     private javax.swing.JButton btnNewFile;
-    private javax.swing.JButton btnNormalList;
-    private javax.swing.JButton btnNumberList;
     private javax.swing.JButton btnOpenFile;
+    private javax.swing.JButton btnOpenFile1;
     private javax.swing.JButton btnPaste;
-    private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSaveAs;
     private javax.swing.JButton btnSettings;
     private javax.swing.JButton btnShare;
     private javax.swing.JButton btnShare1;
     private javax.swing.JButton btnUnderline;
+    private javax.swing.JCheckBox chkRead;
+    private javax.swing.JCheckBox chkWrite;
     private javax.swing.JComboBox<String> cmbFonts;
     private javax.swing.JComboBox<String> cmbSizeFont;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1269,7 +1270,6 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1277,6 +1277,7 @@ public class PrincipalScreen extends javax.swing.JFrame implements Runnable{
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JDialog jdOpenFile;
     private javax.swing.JDialog jdShareFile;
+    private javax.swing.JList<String> lstUsers;
     private javax.swing.JTable tblFiles;
     private javax.swing.JTextPane txtDocumento;
     // End of variables declaration//GEN-END:variables

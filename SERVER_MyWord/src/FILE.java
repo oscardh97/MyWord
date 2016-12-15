@@ -1,7 +1,10 @@
 
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,6 +20,7 @@ public class FILE extends Thread {
     private String name;
     private int id, user;
     private int creationUser;
+    private boolean isOpen = true;
     private TDA_MAP usersConected = new TDA_MAP();
     private JSONArray blocks = new JSONArray();
 
@@ -43,12 +47,21 @@ public class FILE extends Thread {
             } catch (Exception e) {
                 this.blocks = null;
             }
+            cleanLock();
+            start();
         }
         
     }
     
     @Override
     public void run(){
+        while (isOpen) {
+            try {
+                this.update();
+                sleep(5000);
+            } catch (Exception e) {
+            }
+        }
         
     }
     
@@ -68,38 +81,74 @@ public class FILE extends Thread {
             JSONObject actualBlock = (JSONObject)block;
             if (actualBlock.get("id").toString().equals(idBlock)) {
                 int idUser = Integer.parseInt(actualBlock.get("idUser").toString());
-                if (idUser == -1 || idUser == client.getId()) {
-                    actualBlock.put("idUser", client.getId());
+                if (idUser == -1 || idUser == client.getUserId()) {
+                    removeLock(client);
+                    actualBlock.put("idUser", client.getUserId());
+                    update();
                     return true;
-                } else {
-                    //Responder
-                    return false;
-                }
+                } 
+//                else {
+//                    //Responder
+//                    return false;
+//                }
             }
         }
         return false;
     }
+
+    public JSONArray getBlocks() {
+        return blocks;
+    }
     
-    public void removeLock (String idBlock) {
+    public void cleanLock() {
+        try {
+            for (Object block : blocks) {
+                JSONObject actualBlock = (JSONObject)block;
+//                if (actualBlock.get("idUser").toString().equals(cliente.getUserId())) {
+                    actualBlock.put("idUser", -1);
+                    
+//                }
+            }
+            update();
+        } catch (Exception e) {
+        }
+    }
+    
+    public void removeLock (CLIENTE cliente) {
         
         for (Object block : blocks) {
             JSONObject actualBlock = (JSONObject)block;
-            if (actualBlock.get("id").toString().equals(idBlock)) {
+            if (actualBlock.get("idUser").toString().equals(cliente.getUserId())) {
                 actualBlock.put("idUser", -1);
+                update();
             }
         }
     }
     
-    public void modifyBlock (String idBlock, String content, boolean unlock) {
+    public void modifyBlock (String idBlock, JSONArray content, boolean unlock) {
          for (Object block : blocks) {
             JSONObject actualBlock = (JSONObject)block;
             if (actualBlock.get("id").toString().equals(idBlock)) {
-                actualBlock.put("content", content);
+                try {
+//                    String textLine = new String(Base64.getDecoder().decode(content));
+                    actualBlock.put("content", content);
+                } catch (Exception ex) {
+                    Logger.getLogger(FILE.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 if (unlock)
                     actualBlock.put("idUser", -1);
+                
+                update();
+                return;
             }
         }
+        JSONObject newBlock = new JSONObject();
+         
+        newBlock.put("id", idBlock);
+        newBlock.put("content", content);
+        this.blocks.add(newBlock);
+        update();
     }
     
     public JSONObject toJSON() {
@@ -120,8 +169,10 @@ public class FILE extends Thread {
         return fileJSON;
     }
     public boolean update() {
-        JSONObject fileJSON = new JSONObject();
-//        fileJSON.put(, name)
+        System.out.println("@FILE.update\n" + this.toJSON());
+        SERVER.ORM.UPDATE("FILE", this.toJSON());
+//        JSONObject fileJSON = new JSONObject();
+////        fileJSON.put(, name)
         return false;
     }
 }

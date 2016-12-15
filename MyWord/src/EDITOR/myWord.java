@@ -22,6 +22,7 @@ public class myWord  extends Thread{
     public static Socket globalSocket;
     private static JSONParser parser = new JSONParser();
     public static Object responseJSON;
+    private static boolean isActive = false;
 
     public myWord() {
         start();
@@ -80,6 +81,7 @@ public class myWord  extends Thread{
                     
                     break;
                 }
+                isActive = false;
             }
         } catch (Exception E) {
         }
@@ -88,8 +90,14 @@ public class myWord  extends Thread{
 //    public static Object[] read( String endpoint, Object objeto){
 //        return read(endpoint, objeto, null);
 //    }
-    public static Object[] read( String endpoint, Object objeto){
+    public static Object[] endpoint( String endpoint, Object objeto){
         try {
+            if (isActive) {
+                try {
+                    sleep(1000);
+                } catch (Exception e) {
+                }
+            }
             JSONObject data = new JSONObject();
             DataOutputStream SALIDA = new DataOutputStream(globalSocket.getOutputStream());
 //            data.put("endpoint", endpoint);
@@ -98,6 +106,7 @@ public class myWord  extends Thread{
 //            System.out.println("DECODE 2 = " + Base64.getDecoder().decode((byte[])data.get("object")));
             byte[] testing = Base64.getEncoder().encode(data.toJSONString().getBytes());
             System.out.println("DECODE 2 = " + Base64.getDecoder().decode((byte[])testing));
+            isActive = true;
             SALIDA.writeInt(testing.length);
             SALIDA.write(testing);
             SALIDA.writeUTF(endpoint);
